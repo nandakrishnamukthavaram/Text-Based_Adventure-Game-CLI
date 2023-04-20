@@ -1,0 +1,185 @@
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class game {
+
+    public static void main(String[] args) {
+
+        // System objects
+        Scanner in = new Scanner(System.in);
+        Random rand = new Random();
+
+        // Game variables
+        String[] enemies = { "Skeleton", "Zombie", "Warrior", "Assassin" };
+        int maxEnemyHealth = 75;
+        int enemyAttackDamage = 25;
+
+        // Player variables
+        int health = 200;
+        int attackDamage = 100;
+        int numHealthPotions = 3;
+        int healthPotionHealAmount = 50;
+        int coins = 0;
+        boolean running = true;
+        int target = 300 + rand.nextInt(100);
+        System.out.println("You need " + target + " gold coins to achieve your goals\nWelcome to the Dungeon!");
+        OPENING: while (true) {
+            System.out.println("1.Start Game");
+            String i = in.nextLine();
+            switch (i) {
+                case "1":
+                    break OPENING;
+
+                default:
+                    System.out.println("Invalid input enter 1 to enter the Dungeon");
+                    break;
+            }
+        }
+        GAME: while (running) {
+            String input = "";
+            System.out.println("---------------------------------------------------------------");
+            int enemyHealth = rand.nextInt(maxEnemyHealth);
+            String enemy = enemies[rand.nextInt(enemies.length)];
+            System.out.println("\t# " + enemy + " appeared! #\n");
+            ALIVE: while (enemyHealth > 0) {
+                if (health < 25) {
+                    System.out.println("WARNING! Your health is less than 25!".toUpperCase());
+                }
+                System.out.println(""
+                        + "\tYour HP: " + health
+                        + "\n\t" + enemy + "'s HP: " + enemyHealth
+                        + "\t1. Attack"
+                        + "\t2. Drink health potion"
+                        + "\t3. Run!"
+                        + "");
+                input = in.nextLine();
+                switch (input) {
+                    case "1":
+                        int damageDealt = rand.nextInt(attackDamage);
+                        int damageTaken = rand.nextInt(enemyAttackDamage);
+
+                        enemyHealth -= damageDealt;
+                        health -= damageTaken;
+                        System.out.println("\t> You Strike the " + enemy + " for " + damageDealt);
+                        System.out.println("\t> You recieved " + damageTaken + " in retaliation!");
+                        if (health < 1) {
+                            System.out.println("\t> You have taken too much damage, you are too weak to go on!");
+                            break ALIVE;
+                        }
+                        break;
+                    case "2":
+                        if (numHealthPotions > 0) {
+                            health += healthPotionHealAmount;
+                            numHealthPotions--;
+                            System.out.println("\t> You drink a health potion, healing yourself for"
+                                    + healthPotionHealAmount + "."
+                                    + "\n\t> You now have " + health + "HP."
+                                    + "\n\t> You haev " + numHealthPotions + " health potions left.\n");
+                        } else
+                            System.out.println(
+                                    "\t You have no health potions left! Defeat enemies for a chance to get one");
+                        break;
+
+                    case "3":
+                        System.out.println("\tYou run away from the " + enemy + "!");
+                        break ALIVE;
+                    default:
+                        System.out.println("invalid command");
+                        break;
+                }
+            }
+            if (health < 1) {
+                System.out.println("You limp out of the dungeon, weak from battle.");
+                break;
+            }
+            switch (input) {
+                case "2":
+
+                    System.out.println("---------------------------------------------------------------\n");
+                    System.out.println(" # " + enemy + " was defeated! # ");
+                    if (rand.nextInt(100) < rand.nextInt(100)) {
+                        numHealthPotions++;
+                        int coinsdropped = rand.nextInt(100);
+                        coins += coinsdropped;
+                        System.out
+                                .println(" # The " + enemy + " droppen a health potion and " + coinsdropped
+                                        + " coins # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else if (rand.nextInt(100) < rand.nextInt(100)) {
+                        numHealthPotions++;
+                        System.out.println(" # The " + enemy + " droppen a health potion! # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else if (rand.nextInt(100) < rand.nextInt(100)) {
+                        int coinsdropped = rand.nextInt(100);
+                        coins += coinsdropped;
+                        System.out.println(" # The " + enemy + " droppen " + coinsdropped + " coins! # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else
+                        System.out.println(enemy + " did not yield anything this time :(");
+                case "1":
+
+                    System.out.println("---------------------------------------------------------------\n");
+                    System.out.println(" # " + enemy + " was defeated! # ");
+                    if (rand.nextInt(100) < rand.nextInt(75)) {
+                        numHealthPotions++;
+                        int coinsdropped = rand.nextInt(100);
+                        coins += coinsdropped;
+                        System.out
+                                .println(" # The " + enemy + " droppen a health potion and " + coinsdropped
+                                        + " coins # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else if (rand.nextInt(100) < rand.nextInt(75)) {
+                        numHealthPotions++;
+                        System.out.println(" # The " + enemy + " droppen a health potion! # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else if (rand.nextInt(100) < rand.nextInt(75)) {
+                        int coinsdropped = rand.nextInt(100);
+                        coins += coinsdropped;
+                        System.out.println(" # The " + enemy + " droppen " + coinsdropped + " coins! # ");
+                        System.out.println(
+                                " # You now have " + numHealthPotions + " health potion(s) and " + coins
+                                        + " coins. # ");
+                    } else
+                        System.out.println(enemy + " did not yield anything this time :(");
+
+                default:
+                    System.out.println("---------------------------------------------------------------\n"
+                            + "\t> What would you like to do now?"
+                            + "\t> 1. Continue fighting"
+                            + "\t> 2. Exit dungeon");
+                    break;
+            }
+            input = in.nextLine();
+            while (!input.equals("1") && !input.equals("2")) {
+                System.out.println("Invalid input!! choose between options given");
+                input = in.nextLine();
+            }
+            switch (input) {
+                case "1":
+                    System.out.println("You continue your adventure!");
+                    break;
+                case "2":
+                    if (coins >= target)
+                        System.out.println(
+                                "You exit the dungeon, successfuly with " + coins + " coins from your adventure!");
+                    else
+                        System.out.println("Target not reached :( You exit the dungeon with only " + coins
+                                + " coins from your adventure!");
+                    break GAME;
+                default:
+                    break;
+            }
+        }
+    }
+}
